@@ -13,8 +13,11 @@ public class AlienController {
     private Array<Alien> aliens = new Array<Alien>();
 
     private final float DISTANCE_BETWEEN_ALIENS = 20f;
+    private float minX,maxX;
     public AlienController(World world){
         this.world = world;
+        minX = GameInfo.WIDTH/2f - 110;
+        maxX = GameInfo.WIDTH/2f + 110;
         createAliens();
         positionAliens();
     }

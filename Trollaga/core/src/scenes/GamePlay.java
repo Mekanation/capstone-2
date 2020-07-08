@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.trollaga.game.GameMain;
 import helpers.GameInfo;
+import hero.Hero;
 
 public class GamePlay implements Screen {
 
@@ -29,6 +30,10 @@ public class GamePlay implements Screen {
 
     private Sprite bgs;
     private AlienController alienController;
+
+    private Hero hero;
+
+
 
     public GamePlay(GameMain game){
         this.game = game;
@@ -45,6 +50,10 @@ public class GamePlay implements Screen {
         world = new World(new Vector2(0, 0), true);
 
         alienController = new AlienController(world);
+
+        hero = new Hero(world, GameInfo.WIDTH/2f, 16f);
+
+
 
 
 
@@ -75,6 +84,8 @@ public class GamePlay implements Screen {
 
         drawBackground();
         alienController.drawAliens((game.getBatch()));
+        hero.drawHero(game.getBatch());
+
 
         game.getBatch().end();
 
@@ -82,6 +93,9 @@ public class GamePlay implements Screen {
 
         game.getBatch().setProjectionMatrix(mainCamera.combined);
         mainCamera.update();
+        hero.updateHero();
+
+        world.step(Gdx.graphics.getDeltaTime(), 6, 2);
     }
 
     @Override

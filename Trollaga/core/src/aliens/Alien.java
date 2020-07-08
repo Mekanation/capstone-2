@@ -17,7 +17,7 @@ public class Alien extends Sprite {
 
     void createBody(){
         BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.StaticBody;
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
 
         bodyDef.position.set((getX()-40 )/ GameInfo.PPM,getY() / GameInfo.PPM);
 
