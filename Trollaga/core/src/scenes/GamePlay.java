@@ -1,37 +1,31 @@
 package scenes;
 
 
-import aliens.AlienController;
+import Sprites.Alien;
+import Sprites.Hero;
+import Sprites.HeroBullet;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.trollaga.game.GameMain;
 import helpers.GameInfo;
-import hero.Hero;
 
 public class GamePlay implements Screen {
 
     private GameMain game;
     private OrthographicCamera mainCamera;
     private Viewport gameViewport;
-
-    private OrthographicCamera box2DCamera;
-    private Box2DDebugRenderer debugRenderer;
-
-    private World world;
-
     private Sprite bgs;
-    private AlienController alienController;
+    private HeroBullet heroBullet;
+    private Hero hero = new Hero();
+    private Alien alien = new Alien();
 
-    private Hero hero;
+
 
 
 
@@ -41,23 +35,13 @@ public class GamePlay implements Screen {
         mainCamera.position.set(GameInfo.WIDTH /2f,GameInfo.HEIGHT / 2f,0);
 
         gameViewport = new StretchViewport(GameInfo.WIDTH, GameInfo.HEIGHT,mainCamera);
-
-        box2DCamera = new OrthographicCamera();
-        box2DCamera.setToOrtho(false, GameInfo.WIDTH / GameInfo.PPM, GameInfo.HEIGHT / GameInfo.PPM);
-        box2DCamera.position.set(GameInfo.WIDTH/2f, GameInfo.HEIGHT /2f, 0);
-
-        debugRenderer = new Box2DDebugRenderer();
-        world = new World(new Vector2(0, 0), true);
-
-        alienController = new AlienController(world);
-
-        hero = new Hero(world, GameInfo.WIDTH/2f, 16f);
-
-
-
-
-
+        hero.spawn();
         createBackground();
+        alien.spawn();
+
+
+
+
     }
 
     void createBackground(){
@@ -83,19 +67,20 @@ public class GamePlay implements Screen {
         game.getBatch().begin();
 
         drawBackground();
-        alienController.drawAliens((game.getBatch()));
         hero.drawHero(game.getBatch());
-
+        alien.renderAliens(game.getBatch());
+        alien.updateAliens();
 
         game.getBatch().end();
 
-        debugRenderer.render(world,box2DCamera.combined);
-
         game.getBatch().setProjectionMatrix(mainCamera.combined);
         mainCamera.update();
-        hero.updateHero();
+        hero.heroControls();
 
-        world.step(Gdx.graphics.getDeltaTime(), 6, 2);
+
+
+
+
     }
 
     @Override
@@ -122,4 +107,9 @@ public class GamePlay implements Screen {
     public void dispose() {
 
     }
+
+
 }
+
+
+
