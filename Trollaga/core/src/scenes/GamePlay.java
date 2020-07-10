@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.trollaga.game.GameMain;
@@ -22,9 +24,10 @@ public class GamePlay implements Screen {
     private Viewport gameViewport;
     private Sprite bgs;
     private HeroBullet heroBullet;
-    private Hero hero = new Hero();
-    private Alien alien = new Alien();
-
+    private Hero hero;
+    private Alien alien;
+    private Array<HeroBullet> heroBullets;
+    private Array<Rectangle> aliens;
 
 
 
@@ -35,9 +38,14 @@ public class GamePlay implements Screen {
         mainCamera.position.set(GameInfo.WIDTH /2f,GameInfo.HEIGHT / 2f,0);
 
         gameViewport = new StretchViewport(GameInfo.WIDTH, GameInfo.HEIGHT,mainCamera);
-        hero.spawn();
+
         createBackground();
-        alien.spawn();
+        alien = new Alien(GameInfo.WIDTH/2f,GameInfo.HEIGHT - 16);
+        hero = new Hero(GameInfo.WIDTH/2f , 16f);
+
+
+
+
 
 
 
@@ -47,7 +55,6 @@ public class GamePlay implements Screen {
     void createBackground(){
             bgs = new Sprite(new Texture("backgrounds/spacebackground.jpg"));
             bgs.setPosition(0,0);
-
     }
     void drawBackground(){
         game.getBatch().draw(bgs,bgs.getX(),bgs.getY());
@@ -80,7 +87,6 @@ public class GamePlay implements Screen {
 
 
 
-
     }
 
     @Override
@@ -107,6 +113,8 @@ public class GamePlay implements Screen {
     public void dispose() {
 
     }
+
+
 
 
 }
