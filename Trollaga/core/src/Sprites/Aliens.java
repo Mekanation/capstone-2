@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
+import helpers.GameData;
 
 
 public class Aliens extends Rectangle {
@@ -92,9 +93,9 @@ public class Aliens extends Rectangle {
     }
 
     public void aliensShootBack(Array<AlienBullet> alienBullets, Sound alienPew){
-        if(TimeUtils.nanosToMillis(TimeUtils.nanoTime()) - alienShotTimer > shotDelay && aliens.size > 0){
+        if(TimeUtils.nanosToMillis(TimeUtils.nanoTime()) - alienShotTimer > shotDelay && aliens.size > 0 ){
             Rectangle alienToShoot = aliens.random();
-            if(alienToShoot != null){
+            if(alienToShoot != null && !GameData.zenMode){
                 alienPew.play();
                 alienBullets.add(new AlienBullet(alienToShoot.x, alienToShoot.y -10));
                 alienShotTimer = TimeUtils.nanosToMillis(TimeUtils.nanoTime());

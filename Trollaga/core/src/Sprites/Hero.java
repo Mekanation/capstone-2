@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
+import helpers.GameData;
 import helpers.GameInfo;
 
 
@@ -60,7 +61,10 @@ public class Hero extends Rectangle {
 
        }
        if(Gdx.input.isKeyPressed(Input.Keys.SPACE) && TimeUtils.nanoTime() - shotTimer > 125000000) {
-              heroPew.play();
+           if(GameData.zenMode = false){
+               heroPew.play();
+           }
+
               heroBullets.add(new HeroBullet(hero.x, hero.y + 16));
               shotTimer = TimeUtils.nanoTime();
 

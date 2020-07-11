@@ -1,5 +1,8 @@
 package helpers;
 
-public interface ScoreInterface {
-    int Score();
+
+import java.util.List;
+
+public interface ScoreInterface{
+    int mathOperation(List<Integer> score);
 }
