@@ -17,9 +17,8 @@ public class GameMain extends Game {
 	}
 
 	@Override
-	public void render () {
-		super.render();
-
+	public void render () { /* This is actually needed, From the docs on why: A common mistake is to forget to call super.render() with a Game implementation. Without this call, the Screen that you set in the create() method will not be rendered properly*/
+	super.render();
 
 	}
 	

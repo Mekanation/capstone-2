@@ -1,9 +1,11 @@
 package Sprites;
 
 
-abstract class Bullet {
+import com.badlogic.gdx.math.Rectangle;
 
-    public void updateBullet(){
+abstract class Bullet extends Rectangle {
+
+    void updateBullet(float deltaTime){
 
     }
 }

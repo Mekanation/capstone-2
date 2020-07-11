@@ -2,51 +2,74 @@ package Sprites;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import helpers.CollisionRectangle;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.TimeUtils;
 import helpers.GameInfo;
 
-public class Hero extends Sprite {
+
+public class Hero extends Rectangle {
 
     private Texture heroImage;
+    private Rectangle hero;
     private int lives;
-    CollisionRectangle hero;
-    public boolean hit = true;
-    float x,y;
+    private Array<HeroBullet> heroBullets;
+    private long shotTimer = 0;
 
 
-    public Hero(float x, float y){
+    public Hero(){
         lives = 3;
-        this.x = x;
-        this.y = y;
-        this.hero = new CollisionRectangle(GameInfo.WIDTH/2f, y, 16, 16);
-        if (heroImage == null) {
-            heroImage = new Texture(Gdx.files.internal("Sprites/Hero/Hero.png"));
+        heroImage = new Texture(Gdx.files.internal("Sprites/Hero/Hero.png"));
 
-        }
 
     }
 
    public void drawHero(SpriteBatch batch){
-       batch.draw(heroImage, x, y);
+       batch.draw(heroImage, hero.x, hero.y);
 
    }
+    public void spawn(Array<HeroBullet> heroBullets){
+        hero = new Rectangle();
+        hero.x = GameInfo.WIDTH/2f;
+        hero.y = 20;
+        hero.width = 16;
+        hero.height = 16;
+        this.heroBullets = heroBullets;
 
-   public void heroControls(){
-       if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) x -= 150 * Gdx.graphics.getDeltaTime();
-       if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) x += 150 * Gdx.graphics.getDeltaTime();
-       if(Gdx.input.isKeyPressed(Input.Keys.UP)) y += 150 * Gdx.graphics.getDeltaTime();
-       if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) y -= 150 * Gdx.graphics.getDeltaTime();
-       if(Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+
+    }
+
+   public void heroControls(Sound heroPew){
+       if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+           hero.x -= 150 * Gdx.graphics.getDeltaTime();
+
+       }
+       if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+           hero.x += 150 * Gdx.graphics.getDeltaTime();
+
+       }
+       if(Gdx.input.isKeyPressed(Input.Keys.UP)){
+           hero.y += 150 * Gdx.graphics.getDeltaTime();
+
+       }
+       if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+           hero.y -= 150 * Gdx.graphics.getDeltaTime();
+
+       }
+       if(Gdx.input.isKeyPressed(Input.Keys.SPACE) && TimeUtils.nanoTime() - shotTimer > 125000000) {
+              heroPew.play();
+              heroBullets.add(new HeroBullet(hero.x, hero.y + 16));
+              shotTimer = TimeUtils.nanoTime();
 
        }
 
-       if(x < 0) x =0;
-       if(x > 480 - 16) x = 480 - 16;
-       if(y < 16) y = 16;
-       if(y > 400) y = 400;
+       if(hero.x < 0) hero.x =0;
+       if(hero.x > 480 - 16) hero.x = 480 - 16;
+       if(hero.y < 16) hero.y = 16;
+       if(hero.y > 400) hero.y = 400;
 
 
 
@@ -55,6 +78,15 @@ public class Hero extends Sprite {
 
     public int getLives() {
         return lives;
+    }
+
+    public int setLives(int lives){
+        this.lives = lives;
+        return lives;
+    }
+
+    public Rectangle getHero(){
+        return this.hero;
     }
 
 
