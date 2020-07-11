@@ -48,7 +48,7 @@ public class GamePlay implements Screen {
         mainCamera = new OrthographicCamera(GameInfo.WIDTH, GameInfo.HEIGHT);
         mainCamera.position.set(GameInfo.WIDTH / 2f, GameInfo.HEIGHT / 2f, 0);
         gameViewport = new StretchViewport(GameInfo.WIDTH, GameInfo.HEIGHT, mainCamera);
-
+        GameData.score = 0;
         game.font.setColor(Color.WHITE);
 
 

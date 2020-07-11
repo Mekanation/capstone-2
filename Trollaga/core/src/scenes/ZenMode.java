@@ -59,6 +59,7 @@ public class ZenMode implements Screen {
         hero.spawn(heroBullets);
         createBackground();
         aliens.spawnMultipleAliens();
+        GameData.score = 0;
 
 
 
